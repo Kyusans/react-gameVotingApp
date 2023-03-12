@@ -23,7 +23,7 @@ const AlertScript = (props) => {
   );
 };
 
-// export default AlertScript;
+export default AlertScript;
 
 // import AlertScript from "./AlertScript";
 

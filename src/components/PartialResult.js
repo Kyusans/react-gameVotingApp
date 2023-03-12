@@ -1,12 +1,25 @@
 import "../index.css";
 import { useEffect, useState } from "react";
-import { Container, Table, Spinner } from "react-bootstrap";
+import { Container, Table, Spinner, Button } from "react-bootstrap";
 import axios from "axios";
+import RevealGame from "./RevealGame";
 
 const PartialResult = () => {
 	const [gameResult, setGameResult] = useState([]);
 	const [hasGameResult, setHasGameResult] = useState(false);
 	const [reveal, setReveal] = useState(false);
+	const [gameId, setGameId] = useState("");
+
+	const [showGameDetailModal, setShowGameDetailModal] = useState(false);
+
+  const openGameDetailModal = (id) =>{
+    setGameId(id)
+    setShowGameDetailModal(true);
+  }
+  const closeGameDetailModal =  () =>{
+    setGameId("")
+    setShowGameDetailModal(false);
+  }
  
 	const getPartialResult = () =>{
 		const url = localStorage.getItem("url") + "games.php";
@@ -66,6 +79,7 @@ const PartialResult = () => {
 							<th className="green-header">Rank</th>
 							<th className="green-header">Game</th>
 							<th className="green-header">Stars</th>
+							<th className="green-header">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -74,6 +88,7 @@ const PartialResult = () => {
 								<td>{index + 1}</td>
 								<td>{reveal ? items.game_name : items.game_letter}</td>
 								<td>{items.totalStars}</td>
+								<td><Button variant="outline-success" onClick={() => openGameDetailModal(items.game_id)}>Reveal</Button></td>
 							</tr>
 						))}
 					</tbody>
@@ -84,6 +99,7 @@ const PartialResult = () => {
 					</Container>
 				</>)}
 			</Container>
+			<RevealGame show={showGameDetailModal} onHide={closeGameDetailModal} selectedGameId={gameId}/>
 		</>
 	);
 }

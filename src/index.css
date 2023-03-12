@@ -80,7 +80,7 @@ code {
 
 .green-header {
   background-color: rgb(7, 114, 7) !important;
-  color: white;
+  color: white !important;
 }
 
 .rating-container {
