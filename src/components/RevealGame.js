@@ -68,12 +68,11 @@ const RevealGame = (props) => {
   return ( 
     <>
       <Modal show={show} onHide={onHide} fullscreen={true}>
-        <Modal.Header>
-          <Container className="mt-3 d-flex justify-content-between">
-            <Button variant="outline-danger" onClick={() => handleHide()} style={{ width: "75px" }}><FontAwesomeIcon icon={faArrowLeft} /> </Button>
-          </Container>
+        <Modal.Header className="d-flex justify-content-center">
+          <h2><b>{gameName}</b></h2>
         </Modal.Header>
         <Modal.Body>
+        <Button variant="outline-danger" onClick={() => handleHide()} style={{ width: "75px" }}><FontAwesomeIcon icon={faArrowLeft} /> </Button>
         {loading ? 
           (<>
             <Container className="text-center mt-5">
@@ -82,7 +81,6 @@ const RevealGame = (props) => {
           </>):
           (<>
             <Container className="text-center mt-3" style={{ maxWidth: "600px" }}>
-              <h1><b>{gameName}</b></h1><br />
               <Image 
                 src={process.env.PUBLIC_URL + "/images/gameIcon/" + gameIcon}
                 alt={gameName + "'s Icon picture"}
@@ -96,8 +94,6 @@ const RevealGame = (props) => {
                   {dev.map((devs, index) =>(<ListGroup.Item key={index}>{devs.dev_name}</ListGroup.Item>))}
                 </ListGroup>
             </Card>
-            <Container className="mt-3 text-center" style={{ maxWidth: "550px" }}> 
-            </Container>
 				  </>)}
         </Modal.Body>
       </Modal>
