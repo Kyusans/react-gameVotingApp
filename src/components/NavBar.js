@@ -8,8 +8,8 @@ function NavBar() {
           <Navbar.Brand className="brand">IT Days 2023</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav "/>
           <Navbar.Collapse className="brand" id="basic-navbar-nav">
-            <NavLink style={{color: "white", marginRight: "10px"}} href="/">Home</NavLink>
-            <NavLink style={{color: "white", marginRight: "10px"}} href="/games">Games</NavLink>
+            <NavLink style={{color: "white", marginRight: "10px"}} href="/itdays/">Home</NavLink>
+            <NavLink style={{color: "white", marginRight: "10px"}} href="/itdays/games">Games</NavLink>
           </Navbar.Collapse>
       </Navbar>
 

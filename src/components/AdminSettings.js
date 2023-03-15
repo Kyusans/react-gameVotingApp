@@ -23,12 +23,13 @@ const AdminSettings = (props) => {
   useEffect(() =>{
     if(show === true){
       const getRatingStatus = () =>{
-        const url = sessionStorage.getItem("url") + "settings.php";
+        const url = localStorage.getItem("url") + "settings.php";
         const formData = new FormData();
         formData.append("operation", "getRatingStatus");
         axios({url: url, data: formData, method:"post"})
         .then(res =>{
-          if(res.data === "1"){
+          console.log("res sa rate: " + res.data)
+          if(res.data === 1){
             setRateStatus(true);
           }else{
             setRateStatus(false);
@@ -38,12 +39,13 @@ const AdminSettings = (props) => {
         })
       }
       const getRevealStatus = () =>{
-        const url = sessionStorage.getItem("url") + "settings.php";
+        const url = localStorage.getItem("url") + "settings.php";
         const formData = new FormData();
         formData.append("operation", "getRevealStatus");
         axios({url: url, data: formData, method:"post"})
         .then(res =>{
-          if(res.data === "1"){
+          console.log("res sa reveal: " + res.data)
+          if(res.data === 1){
             setRevealStatus(true);
           }else{
             setRevealStatus(false);
@@ -61,7 +63,7 @@ const AdminSettings = (props) => {
   },[revealStatus, rateStatus, show])
 
   const setRating = (status) =>{
-    const url = sessionStorage.getItem("url") + "settings.php";
+    const url = localStorage.getItem("url") + "settings.php";
     const jsonData = {status: status}
     const formData = new FormData();
     formData.append("operation", "setRatingStatus");
@@ -70,6 +72,7 @@ const AdminSettings = (props) => {
     axios({url: url, data: formData, method:"post"})
     .then(res =>{
       if(res.data !== 0){
+        console.log("res sa setRating: " + res.data)
         if(status === 1){
 					getAlert("success", "Success! rating status is now: can rate");
           setRateStatus(true);
@@ -96,7 +99,7 @@ const AdminSettings = (props) => {
   }
 
 	const setReveal = (status) =>{
-		const url = sessionStorage.getItem("url") + "settings.php";
+		const url = localStorage.getItem("url") + "settings.php";
     const jsonData = {status: status}
     const formData = new FormData();
     formData.append("operation", "setRevealStatus");
@@ -104,6 +107,7 @@ const AdminSettings = (props) => {
     axios({url: url, data: formData, method:"post"})
     .then(res =>{
       if(res.data !== 0){
+        console.log("res sa setReveal: " + res.data)
         if(status === 1){
 					getAlert("success", "Success! reveal status is now: revealed");
           setRevealStatus(true);
@@ -170,7 +174,6 @@ const AdminSettings = (props) => {
           </Container>
         </Modal.Body>
       </Modal>
-      
     </> 
   );
 }

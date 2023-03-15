@@ -59,9 +59,6 @@ const AdminDashboard = () => {
 	}
   useEffect(() =>{
 		if(localStorage.getItem("isAdminLoggined") === "1"){
-      if(localStorage.getItem("url") === null){
-        localStorage.setItem("url", "http://localhost/itdays/api/");
-      }
       const checkStatus = async () =>{
         const url = localStorage.getItem("url") + "games.php";
         const formData = new FormData();
@@ -70,7 +67,7 @@ const AdminDashboard = () => {
           const res = await axios({url: url, data: formData, method: "post"});
           const settings = res.data;
           const status = settings.find((setting) => setting.set_key === "reveal");
-          if(status && status.set_value === "1"){
+          if(status && status.set_value === 1){
             setReveal(true);
           }else{
             setReveal(false)
@@ -93,11 +90,12 @@ const AdminDashboard = () => {
   return ( 
     <>
       <Container fluid>
-        <Container className="text-end mt-3">     
-          <Button variant="outline-primary" onClick={openAdminSettingsModal}>Settings</Button>
-        </Container>
 				{ hasGameResult ? (<>
-					<Table responsive striped bordered className="white-background mt-1 text-center margin-auto border-secondary w-75">
+          <Container className="mt-3 d-flex justify-content-between align-items-center"> 
+            <Button variant="outline-danger" onClick={() => navigateTo("/")}>Back</Button>
+            <Button variant="outline-primary" onClick={openAdminSettingsModal}>Settings</Button>
+          </Container>
+					<Table responsive striped bordered className="white-background mt-1 text-center margin-auto border-secondary">
 					<thead>
 						<tr>
 							<th className="green-header">Rank</th>

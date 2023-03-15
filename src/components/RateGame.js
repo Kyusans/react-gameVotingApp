@@ -1,15 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import { Modal, Button, Row, Col } from "react-bootstrap";
+import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Rating from "react-rating-stars-component";
 import AlertScript from "./AlertScript";
 import "../index.css"
 
 const RateGame = (props) => {
-
     const {show, onHide, gameId } = props;
     const [star, setStar] = useState(0);
-
+    const [isLoading, setIsloading] = useState(false);
     //for alert
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState("");
@@ -40,7 +39,7 @@ const RateGame = (props) => {
         }else if(res.data === 1){
           getAlert("success", `You rated ${star} stars`)
           setTimeout(() => {
-              handleHide();
+            handleHide();
           }, 1250);
         }else{
           getAlert("danger", "There was an unexpected error");
@@ -63,7 +62,8 @@ const RateGame = (props) => {
           const res = await axios({url: url, data: formData, method: "post"});
           const settings = res.data;
           const status = settings.find((setting) => setting.set_key === "status");
-          if(status && status.set_value === "1"){
+          if(status && status.set_value === 1){
+            setIsloading(true);
             addStar();
           }else{    
             getAlert("danger", "Rating unavailable");
@@ -77,12 +77,13 @@ const RateGame = (props) => {
     function handleHide(){
       setShowAlert(false);
       setStar(0);
+      setIsloading(false);
       onHide();
     }
 
   return ( 
     <>
-      <Modal show={show} onHide={onHide} variant="success">
+      <Modal show={show} onExited={onHide} variant="success">
         <Modal.Header>
           <Modal.Title>Rate this game</Modal.Title>
         </Modal.Header>
@@ -105,7 +106,8 @@ const RateGame = (props) => {
 
         <Modal.Footer>
           <Button variant="outline-danger" onClick={() => handleHide()}>Close</Button>
-          <Button variant="outline-success" onClick={checkStatus}>Submit</Button>
+          {isLoading ? <Button disabled variant="outline-success"><Spinner size="sm" /> </Button> :
+          <Button variant="outline-success" onClick={checkStatus}>Submit</Button>}
         </Modal.Footer>
       </Modal>
     </>

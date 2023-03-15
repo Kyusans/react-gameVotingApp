@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <BrowserRouter>
+      <BrowserRouter basename="/itdays">
         <Routes>
           <Route path="/" element={<PartialResult />} />
           <Route path="/games" element={<Games />} />
