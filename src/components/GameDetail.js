@@ -19,6 +19,7 @@ const GameDetail = (props) => {
     setShowRateModal(true);
   }
   const closeRateModal =  () =>{
+    handleHide();
     setShowRateModal(false);
   }
 

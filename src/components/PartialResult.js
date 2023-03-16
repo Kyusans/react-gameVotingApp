@@ -7,7 +7,7 @@ import RevealGame from "./RevealGame";
 
 const PartialResult = () => {
 	if(localStorage.getItem("url") === null){
-		localStorage.setItem("url", "http://192.168.1.10/itdays/api/");
+		localStorage.setItem("url", "http://192.168.0.4/itdays/api/");
 	}
 	const [gameResult, setGameResult] = useState([]);
 	const [hasGameResult, setHasGameResult] = useState(false);
@@ -35,7 +35,6 @@ const PartialResult = () => {
 
 		try{
 			const res = await axios({url: url, data: formData, method: "post"})
-			console.log("res ni partial: " + JSON.stringify(res.data));
 			if(res.data !== 0){
 				setGameResult(res.data);
 				setHasGameResult(true);
@@ -70,7 +69,6 @@ const PartialResult = () => {
 			try {
 				const res = await axios({url: url, data: formData, method: "post"});
 				const settings = res.data;
-				console.log("res.data: " + res.data);
 				const status = settings.find((setting) => setting.set_key === "reveal");
 				if(status && status.set_value === 1){
 					setReveal(true);
@@ -79,11 +77,11 @@ const PartialResult = () => {
 				}
 				getPartialResult();
 				}catch(err) {
-					console.log("There was an unexpected error occured: " + err)
+					alert("There was an unexpected error occured: " + err)
 				}
 		}
 		checkStatus();
-		const intervalId = setInterval(checkStatus, 5000);
+		const intervalId = setInterval(checkStatus, 20000);
 		return () => clearInterval(intervalId);
 	}, [])
 
@@ -105,11 +103,11 @@ const PartialResult = () => {
 						{gameResult.map((items, index) => (
 							<tr key={index}>
 								<td>{index + 1}</td>
-								<td>{items.game_status === 1 || reveal ? items.game_name : items.game_letter}</td>
+								<td>{items.game_status === 1 && reveal ? items.game_name : items.game_letter}</td>
 								<td>{items.totalStars}</td>
 								<td>
 									{
-										items.game_status === 0 || reveal ?<Button variant="outline-success" onClick={() => openGameDetailModal(items.game_id, 1)}><BiShow /></Button>:
+										items.game_status === 0 && reveal ?<Button variant="outline-success" onClick={() => openGameDetailModal(items.game_id, 1)}><BiShow /></Button>:
 										<Button variant="outline-secondary" onClick={() => openGameDetailModal(items.game_id, 0)}><BiHide /></Button>
 									}
 								</td>

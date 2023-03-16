@@ -28,7 +28,6 @@ const AdminSettings = (props) => {
         formData.append("operation", "getRatingStatus");
         axios({url: url, data: formData, method:"post"})
         .then(res =>{
-          console.log("res sa rate: " + res.data)
           if(res.data === 1){
             setRateStatus(true);
           }else{
@@ -44,7 +43,6 @@ const AdminSettings = (props) => {
         formData.append("operation", "getRevealStatus");
         axios({url: url, data: formData, method:"post"})
         .then(res =>{
-          console.log("res sa reveal: " + res.data)
           if(res.data === 1){
             setRevealStatus(true);
           }else{
@@ -72,7 +70,6 @@ const AdminSettings = (props) => {
     axios({url: url, data: formData, method:"post"})
     .then(res =>{
       if(res.data !== 0){
-        console.log("res sa setRating: " + res.data)
         if(status === 1){
 					getAlert("success", "Success! rating status is now: can rate");
           setRateStatus(true);
@@ -107,7 +104,6 @@ const AdminSettings = (props) => {
     axios({url: url, data: formData, method:"post"})
     .then(res =>{
       if(res.data !== 0){
-        console.log("res sa setReveal: " + res.data)
         if(status === 1){
 					getAlert("success", "Success! reveal status is now: revealed");
           setRevealStatus(true);

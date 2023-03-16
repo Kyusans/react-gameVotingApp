@@ -15,6 +15,7 @@ const Games = () => {
   const closeGameDetailModal =  () =>{
     setGameId("")
     setShowGameDetailModal(false);
+    getGames();
   }
   const [game, setGame] = useState([]);
 
@@ -39,8 +40,6 @@ const Games = () => {
     <>
       <Container className="text-center">
         <h3 className="mt-3">Games</h3>
-        <Card>
-          <Card.Body>
             <Row>
               {Array.isArray(game) &&
                 game.map((games, index) => (
@@ -60,8 +59,6 @@ const Games = () => {
                   </Col>
                 ))}
             </Row>
-          </Card.Body>
-        </Card>
       </Container>
       <GameDetail show={showGameDetailModal} onHide={closeGameDetailModal} selectedGameId={gameId}/>
     </>

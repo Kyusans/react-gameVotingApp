@@ -7,7 +7,9 @@ import "../index.css";
 
 const RevealGame = (props) => {
   const [gameName, setGameName] = useState("");
+  const [gameLetter, setGameLetter] = useState("");
   const [gameIcon, setGameIcon] = useState("");
+  const [revealName, setRevealName] = useState(false);
   const [dev, setDev] = useState([]);
   const [loading, setLoading] = useState(false);
   const {show, onHide, selectedGameId} = props;
@@ -15,6 +17,8 @@ const RevealGame = (props) => {
   function handleHide(){
     setGameName("");
     setGameIcon("");
+    setRevealName(false);
+    setGameLetter("")
     setDev([]);
     onHide();  
   }
@@ -49,7 +53,11 @@ const RevealGame = (props) => {
         .then((res) => {
           if (res.data !== 0) {
             setGameName(res.data.game_name);
+            setGameLetter(res.data.game_letter);
             setGameIcon(res.data.game_icon);
+            setTimeout(() => {
+              setRevealName(true);
+            }, 1000);
           }
         })
         .catch((err) => {
@@ -60,7 +68,7 @@ const RevealGame = (props) => {
       Promise.all([getDevs(), selectGame()]).then(() => {
         setTimeout(() => {
           setLoading(false);
-        }, 850);
+        }, 1000);
       });
     }
   }, [selectedGameId, show]);
@@ -69,7 +77,7 @@ const RevealGame = (props) => {
     <>
       <Modal show={show} onHide={onHide} fullscreen={true}>
         <Modal.Header className="d-flex justify-content-center">
-          <h2><b>{gameName}</b></h2>
+          <h2><b>{revealName ? gameName : gameLetter}</b></h2>
         </Modal.Header>
         <Modal.Body>
         <Button variant="outline-danger" onClick={() => handleHide()} style={{ width: "75px" }}><FontAwesomeIcon icon={faArrowLeft} /> </Button>
