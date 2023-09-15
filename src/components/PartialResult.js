@@ -7,7 +7,8 @@ import RevealGame from "./RevealGame";
 
 const PartialResult = () => {
 	if(localStorage.getItem("url") === null){
-		localStorage.setItem("url", "http://192.168.0.4/itdays/api/");
+		// url naa sa imong steam comment nga notepad
+		localStorage.setItem("url", "");
 	}
 	const [gameResult, setGameResult] = useState([]);
 	const [hasGameResult, setHasGameResult] = useState(false);
