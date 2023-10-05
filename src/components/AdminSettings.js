@@ -14,51 +14,62 @@ const AdminSettings = (props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertVariant, setAlertVariant] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+
   function getAlert(variantAlert, messageAlert, status = ""){
     setShowAlert(true);
     setAlertVariant(variantAlert);
     setAlertMessage(messageAlert);
-  }
-
+  }  
+  
   useEffect(() =>{
     if(show === true){
-      const getRatingStatus = () =>{
-        const url = localStorage.getItem("url") + "settings.php";
-        const formData = new FormData();
-        formData.append("operation", "getRatingStatus");
-        axios({url: url, data: formData, method:"post"})
-        .then(res =>{
-          if(res.data === 1){
+      const getRatingStatus = async () => {
+        try {
+          const url = localStorage.getItem("url") + "settings.php";
+          const formData = new FormData();
+          formData.append("operation", "getRatingStatus");
+      
+          const response = await axios({
+            url: url,
+            data: formData,
+            method: "post"
+          });
+          console.log("Rating Status: " + JSON.stringify(response.data));
+          if (response.data === "1") {
             setRateStatus(true);
-          }else{
+          } else {
             setRateStatus(false);
           }
-        }).catch(err =>{
-          getAlert("danger", "There was an unexpected error occured: " + err);
-        })
-      }
-      const getRevealStatus = () =>{
-        const url = localStorage.getItem("url") + "settings.php";
-        const formData = new FormData();
-        formData.append("operation", "getRevealStatus");
-        axios({url: url, data: formData, method:"post"})
-        .then(res =>{
-          if(res.data === 1){
+        } catch (err) {
+          getAlert("danger", "There was an unexpected error occurred: " + err);
+        }
+      };
+      
+      const getRevealStatus = async () =>{
+        try {
+          const url = localStorage.getItem("url") + "settings.php";
+          const formData = new FormData();
+          formData.append("operation", "getRevealStatus");
+    
+          const response = await axios({url: url, data: formData, method:"post"});
+          console.log("Reveal Status: " + JSON.stringify(response.data));
+          if(response.data === "1"){
             setRevealStatus(true);
           }else{
             setRevealStatus(false);
-          }
-        }).catch(err =>{
+          } 
+        } catch (err) {
           getAlert("danger", "There was an unexpected error occured: " + err);
-        })
+        }
       } 
-      function checkStatus(){
+    
+      function getAllStatus(){
         getRatingStatus();
         getRevealStatus();
       }
-      checkStatus();
+      getAllStatus();
     }
-  },[revealStatus, rateStatus, show])
+  }, [show])
 
   const setRating = (status) =>{
     const url = localStorage.getItem("url") + "settings.php";
@@ -69,27 +80,25 @@ const AdminSettings = (props) => {
 
     axios({url: url, data: formData, method:"post"})
     .then(res =>{
+      console.log(JSON.stringify(res.data))
       if(res.data !== 0){
-        if(status === 1){
+        if(status !== 0){
 					getAlert("success", "Success! rating status is now: can rate");
           setRateStatus(true);
 				}else{
 					getAlert("success", "Success! rating status is now: can't rate");
           setRateStatus(false);
 				}
-        setTimeout(() => {
-          setShowAlert(false)
-        },1500)
       }else{
-        if(status === 1){
+        if(status !== 0){
 					getAlert("danger", "rating status is already: can rate");
 				}else{
 					getAlert("danger", "rating status is already: can't rate");
 				}
-        setTimeout(() => {
-          setShowAlert(false)
-        },1500)
       }
+      setTimeout(() => {
+        setShowAlert(false)
+      },1500)
     }).catch(err =>{
       getAlert("danger", "There was an unexpected error occured: " + err);
     })
@@ -129,13 +138,20 @@ const AdminSettings = (props) => {
     })
 	}
 
+  function handleHide(){
+    setRateStatus(false);
+    setRevealStatus(false);
+    onHide();
+  }
+
   return ( 
     <>
-      <Modal show={show} onHide={onHide} fullscreen={true}>
+      <Modal show={show} onHide={handleHide} fullscreen={true}>
         <Modal.Header>
           <Button variant="outline-danger" onClick={onHide} style={{ width: "75px" }}><FontAwesomeIcon icon={faArrowLeft} /> </Button>
         </Modal.Header>
         <Modal.Body>
+
           <Card className="small-card mt-2" bg="dark">
             <Card.Body className="text-center">
               <Row>

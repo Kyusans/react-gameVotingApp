@@ -15,7 +15,7 @@ const Games = () => {
   const closeGameDetailModal =  () =>{
     setGameId("")
     setShowGameDetailModal(false);
-    getGames();
+    // getGames();
   }
   const [game, setGame] = useState([]);
 
@@ -38,8 +38,7 @@ const Games = () => {
   }, []);
   return ( 
     <>
-      <Container className="text-center">
-        <h3 className="mt-3">Games</h3>
+      <Container className="text-center mt-5">
             <Row>
               {Array.isArray(game) &&
                 game.map((games, index) => (
