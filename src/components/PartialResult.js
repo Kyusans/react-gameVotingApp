@@ -18,11 +18,13 @@ const PartialResult = () => {
 
 	const openGameDetailModal = (id, status) =>{
 		setGameId(id)
-		handleReveal(id, status);
 		if(status === 1){
 			setShowGameDetailModal(true);
 		}
-	  }
+		setTimeout(() => {
+			handleReveal(id, status);
+		}, 3000);
+	}
 	  const closeGameDetailModal =  () =>{
 		setGameId("")
 		setShowGameDetailModal(false);
@@ -54,6 +56,7 @@ const PartialResult = () => {
 		formData.append("json", JSON.stringify(jsonData));
 		try{
 			const res = await axios({url: url, data: formData, method: "post"})
+			console.log("res ni HANDLE REVEAL: " + JSON.stringify(res.data))
 			if(res.data !== 0){
 				getPartialResult();
 			}
@@ -62,16 +65,15 @@ const PartialResult = () => {
 		}
 	}
 	useEffect(() =>{
-        localStorage.setItem("isAdminLoggined", "0");
+    localStorage.setItem("isAdminLoggined", "0");
 		const checkStatus = async () =>{
-			const url = localStorage.getItem("url") + "games.php";
+			const url = localStorage.getItem("url") + "settings.php";
 			const formData = new FormData();
-			formData.append("operation", "getSettings");
+			formData.append("operation", "getRevealStatus");
 			try {
 				const res = await axios({url: url, data: formData, method: "post"});
-				const settings = res.data;
-				const status = settings.find((setting) => setting.set_key === "reveal");
-				if(status && status.set_value === 1){
+				console.log("res ni checkstatus : " + JSON.stringify(res.data));
+				if(res.data === "1"){
 					setReveal(true);
 				}else{
 					setReveal(false)
@@ -97,14 +99,14 @@ const PartialResult = () => {
 							<th className="green-header">Rank</th>
 							<th className="green-header">Game</th>
 							<th className="green-header">Stars</th>
-							<th className="green-header">Action</th>
+							<th className="green-header">Reveal game</th>
 						</tr>
 					</thead>
 					<tbody>
 						{gameResult.map((items, index) => (
 							<tr key={index}>
 								<td>{index + 1}</td>
-								<td>{items.game_status === 1 && reveal ? items.game_name : items.game_letter}</td>
+								<td><h4>{items.game_status === 1 && reveal ? items.game_name : items.game_letter}</h4></td>
 								<td>{items.totalStars}</td>
 								<td>
 									{

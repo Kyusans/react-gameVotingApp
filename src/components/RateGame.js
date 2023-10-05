@@ -33,8 +33,8 @@ const RateGame = (props) => {
       formData.append("json", JSON.stringify(jsonData));
       axios({url: url, data: formData, method:"post"})
       .then((res) =>{
-        var data = res.data;
-        if(data === 3){
+        console.log("RES NI ADDSTAR: " + JSON.stringify(res.data));
+        if(res.data === 3){
           getAlert("danger", "You have already rated this game.");
         }else if(res.data === 1){
           getAlert("success", `You rated ${star} stars`)
@@ -55,14 +55,13 @@ const RateGame = (props) => {
       if(star === 0){
         getAlert("danger", "Rate atleast 1 star");
       }else{
-        const url = localStorage.getItem("url") + "games.php";
+        const url = localStorage.getItem("url") + "settings.php";
         const formData = new FormData();
-        formData.append("operation", "getSettings");
+        formData.append("operation", "getRatingStatus");
         try {
           const res = await axios({url: url, data: formData, method: "post"});
-          const settings = res.data;
-          const status = settings.find((setting) => setting.set_key === "status");
-          if(status && status.set_value === 1){
+          console.log("res.data" + JSON.stringify(res.data))
+          if(res.data !== "0"){
             setIsloading(true);
             addStar();
           }else{    
