@@ -6,7 +6,7 @@ import axios from "axios";
 import RevealGame from "./RevealGame";
 
 const PartialResult = () => {
-	if(localStorage.getItem("url") === null){
+	if(localStorage.getItem("url") !== "http://localhost/itdays/api/"){
 		// url naa sa imong steam comment nga notepad
 		localStorage.setItem("url", "http://localhost/itdays/api/");
 	}
@@ -105,9 +105,9 @@ const PartialResult = () => {
 					<tbody>
 						{gameResult.map((items, index) => (
 							<tr key={index}>
-								<td>{index + 1}</td>
-								<td><h4>{items.game_status === 1 && reveal ? items.game_name : items.game_letter}</h4></td>
-								<td>{items.totalStars}</td>
+								<td><h4>{index + 1}</h4></td>
+								<td><h5>{items.game_status === 1 && reveal ? items.game_name : items.game_letter}</h5></td>
+								<td><h4>{items.totalStars}</h4></td>
 								<td>
 									{
 										items.game_status === 0 && reveal ?<Button variant="outline-success" onClick={() => openGameDetailModal(items.game_id, 1)}><BiShow /></Button>:

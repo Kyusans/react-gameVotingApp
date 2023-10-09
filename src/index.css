@@ -137,12 +137,7 @@ code {
 }
 
 .fixed-aspect-ratio {
-  width: 100%;
-  overflow: hidden;
-}
-
-.fixed-aspect-ratio-reveal {
-  width: 50%;
+  width: 70%;
   overflow: hidden;
 }
 

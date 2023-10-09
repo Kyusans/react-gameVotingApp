@@ -90,7 +90,7 @@ const RevealGame = (props) => {
             </>
           ) : (
             <>
-              <Container className="text-center mt-3">
+              <Container className="text-center">
                 <Row>     
                   <h1><b>{gameName}</b></h1><br />
                 </Row>
@@ -99,13 +99,13 @@ const RevealGame = (props) => {
                     <Image
                       src={process.env.PUBLIC_URL + "/images/gameIcon/" + gameIcon}
                       alt={gameName + "'s Icon picture"}
-                      className="fixed-aspect-ratio-reveal border-1"
+                      className="fixed-aspect-ratio border-1"
                       fluid
                     />
                   </Col>
                   <Col xs={6}>
                   <Card border="dark">
-                    <Card.Footer><h3>Developers</h3></Card.Footer>
+                    <Card.Footer><h3>Developer</h3></Card.Footer>
                     <ListGroup variant="flush">
                       {dev.map((devs, index) =>(<ListGroup.Item key={index}><h4><b>{devs.dev_name}</b></h4></ListGroup.Item>))}
                     </ListGroup>
